@@ -46,6 +46,21 @@ public class GameManager {
         return countdownTicks / 20;
     }
 
+    private static boolean gamePaused = false;
+
+    public static void pauseGame() {
+        gamePaused = true;
+    }
+
+    public static void resumeGame() {
+        gamePaused = false;
+    }
+
+    public static boolean isGamePaused() {
+        return gamePaused;
+    }
+
+
     public static String getFormattedTimer() {
         int seconds = gameTicks / 20;
         return String.format("%02d:%02d", seconds / 60, seconds % 60);
@@ -80,7 +95,10 @@ public class GameManager {
             }
 
         } else if (isGameRunning()) {
+            if (isGamePaused()) return; // ⛔ Spielzeit pausiert, keine Aktion
+
             gameTicks--;
+
 
             if (gameTicks % 20 == 0 && gameTicks / 20 <= 3 && gameTicks / 20 > 0) {
                 broadcast("Spiel endet in " + (gameTicks / 20) + "...");
@@ -132,4 +150,5 @@ public class GameManager {
             );
         }
     }
+
 }

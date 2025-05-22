@@ -6,11 +6,13 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.util.Formatting;
+import net.minecraft.client.gui.DrawContext;
+
 
 public class GameHUDOverlay {
 
     public static void register() {
-        HudRenderCallback.EVENT.register((DrawContext context, RenderTickCounter tickDelta) -> {
+        HudRenderCallback.EVENT.register((DrawContext context, RenderTickCounter  tickDelta) -> {
             MinecraftClient client = MinecraftClient.getInstance();
             if (client.player == null) return;
 
@@ -29,7 +31,7 @@ public class GameHUDOverlay {
                     else if ("blau".equalsIgnoreCase(team)) color = Formatting.BLUE;
                 }
 
-                drawCenteredText(context, client, msg, width / 2, height / 2 - 20, color, 4.0f); // Große Zahl
+                drawCenteredText(context, client, msg, width / 2, height / 2 - 20, color, 5.0f);
 
             }
 
@@ -38,7 +40,11 @@ public class GameHUDOverlay {
                 String time = GameManager.getFormattedTimer();
                 drawCenteredText(context, client, "Spielzeit: " + time, width / 2, 20, Formatting.GRAY, 1.5f);
 
+                if (GameManager.isGamePaused()) {
+                    drawCenteredText(context, client, "⏸ PAUSIERT", width / 2, height / 2 + 40, Formatting.YELLOW, 3.0f);
+                }
             }
+
         });
     }
 
@@ -55,5 +61,6 @@ public class GameHUDOverlay {
 
         context.getMatrices().pop();
     }
+
 
 }

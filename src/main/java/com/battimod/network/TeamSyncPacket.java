@@ -7,10 +7,11 @@ import net.minecraft.server.network.ServerPlayerEntity;
 
 public class TeamSyncPacket {
     // Registrierung des Payload-Typs
-    public static void registerPayload() {
-        // Client-seitig
-        net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry.playS2C().register(TeamSyncPayload.PACKET_ID, TeamSyncPayload.CODEC);
+    public static void registerPayloadClientOnly() {
+        net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry.playS2C()
+                .register(TeamSyncPayload.PACKET_ID, TeamSyncPayload.CODEC);
     }
+
 
     // Senden vom Server an den Client
     public static void send(ServerPlayerEntity player, String team) {

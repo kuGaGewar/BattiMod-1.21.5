@@ -1,17 +1,25 @@
 package com.battimod;
 
+import com.battimod.commands.*;
+import com.battimod.game.GameManager;
+import com.battimod.network.TeamSyncPacket;
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-//important comment lol
 public class BattiMod implements ModInitializer {
-	public static final String MOD_ID = "battimod";
-	public static final Logger LOGGER = LoggerFactory.getLogger(MOD_ID);
-
 	@Override
 	public void onInitialize() {
+		// 🧠 Serverseitige Befehle registrieren
+		CommandForceJoin.register();
+		CommandForceStart.register();
+		CommandForceInfo.register();
+		CommandForceCountdown.register();
+		CommandForceTimer.register();
 
+
+		// ⏱️ GameManager starten, wenn Server hochfährt
+		ServerLifecycleEvents.SERVER_STARTED.register(server -> {
+			GameManager.init(server);
+		});
 	}
 }

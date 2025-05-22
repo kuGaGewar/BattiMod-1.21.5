@@ -1,48 +1,28 @@
 package com.battimod.network;
 
 import com.battimod.client.ClientTeamState;
-import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
-import net.minecraft.network.PacketByteBuf;
-import net.minecraft.network.packet.s2c.play.CustomPayloadS2CPacket;
-import net.minecraft.network.packet.CustomPayload;
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.Identifier;
-
-import io.netty.buffer.Unpooled;
 
 public class TeamSyncPacket {
-
-    public static final Identifier ID = new Identifier("battimod:team_sync");
-
-    public static void sendToClient(ServerPlayerEntity player, String team) {
-        PacketByteBuf buf = new PacketByteBuf(Unpooled.buffer());
-        buf.writeString(team, 64);
-
-        CustomPayloadS2CPacket packet = new CustomPayloadS2CPacket(new CustomPayload() {
-            @Override
-            public Identifier id() {
-                return ID;
-            }
-
-            @Override
-            public void write(PacketByteBuf output) {
-                output.writeString(team, 64);
-            }
-        });
-
-        player.networkHandler.sendPacket(packet);
+    // Registrierung des Payload-Typs
+    public static void registerPayload() {
+        // Client-seitig
+        net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry.playS2C().register(TeamSyncPayload.PACKET_ID, TeamSyncPayload.CODEC);
     }
 
-    public static void registerClientReceiver() {
-        ClientPlayConnectionEvents.JOIN.register((handler, sender, client) -> {
-            handler.getConnection().setPacketListener((packet) -> {
-                if (packet instanceof CustomPayloadS2CPacket customPacket &&
-                        customPacket.payload().id().equals(ID)) {
+    // Senden vom Server an den Client
+    public static void send(ServerPlayerEntity player, String team) {
+        TeamSyncPayload payload = new TeamSyncPayload(team);
+        ServerPlayNetworking.send(player, payload);
+    }
 
-                    PacketByteBuf buf = new PacketByteBuf(Unpooled.wrappedBuffer(customPacket.payload().write(PacketByteBufs.create()).array()));
-                    String team = buf.readString(64);
-                    client.execute(() -> ClientTeamState.setClientTeam(team));
-                }
+    // Registrierung des Handlers auf dem Client
+    public static void registerClientHandler() {
+        ClientPlayNetworking.registerGlobalReceiver(TeamSyncPayload.PACKET_ID, (payload, context) -> {
+            context.client().execute(() -> {
+                ClientTeamState.setClientTeam(payload.team());
             });
         });
     }

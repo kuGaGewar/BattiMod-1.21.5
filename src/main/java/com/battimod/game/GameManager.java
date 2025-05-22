@@ -97,8 +97,9 @@ public class GameManager {
     }
 
     public static String getPlayerTeam(ClientPlayerEntity player) {
-        return com.battimod.team.TeamManager.getPlayerTeam(player);
+        return com.battimod.client.ClientTeamState.getClientTeam();
     }
+
 
     public static void setCountdownSeconds(int seconds) {
         countdownTicks = seconds * 20;

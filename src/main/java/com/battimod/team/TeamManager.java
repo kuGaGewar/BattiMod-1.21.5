@@ -21,6 +21,13 @@ public class TeamManager {
 
         TeamSyncPacket.send(player, team.toLowerCase());
 
+        // Entferne Spieler aus allen anderen Teams
+        teams.forEach((otherTeam, list) -> {
+            if (!otherTeam.equals(team)) {
+                list.remove(player.getUuid()); //vorgeschlagen wurde list.remove(playerUuid) aber oben steht was anderes ?!
+            }
+        });
+
 
     }
 

@@ -1,6 +1,7 @@
 package com.battimod.commands;
 
 
+import com.battimod.GameSettings;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -15,8 +16,12 @@ public class CommandForceStart {
                     .requires(source -> source.hasPermissionLevel(2)) // Nur OP
                     .executes(ctx -> {
                         ServerPlayerEntity player = ctx.getSource().getPlayer();
-                        player.sendMessage(Text.of("⏳ Spiel-Countdown gestartet."), false);
-                        GameManager.startCountdown();
+                        player.sendMessage(Text.of("⏳ Macht euch bereit!"), false);
+
+                        GameManager.setCountdownSeconds(GameSettings.countdownSeconds);
+                        GameManager.setGameSeconds(GameSettings.gameSeconds);
+                        GameManager.startCountdown(); // Dieser startet beides automatisch in deinem GameManager-Tick
+
                         return 1;
                     }));
         });

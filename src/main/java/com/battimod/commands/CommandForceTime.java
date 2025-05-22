@@ -1,5 +1,6 @@
 package com.battimod.commands;
 
+import com.battimod.GameSettings;
 import com.battimod.game.GameManager;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -14,7 +15,9 @@ public class CommandForceTime {
                             .requires(src -> src.hasPermissionLevel(2))
                             .executes(ctx -> {
                                 int sek = IntegerArgumentType.getInteger(ctx, "sekunden");
-                                GameManager.setGameSeconds(sek);
+                                //GameManager.setGameSeconds(sek); Auskommentierung verhindert den automatischen Start des Timers
+                                GameSettings.gameSeconds = sek;
+
                                 ctx.getSource().sendFeedback(() -> Text.of("Spielzeit gesetzt auf " + sek + " Sekunden."), false);
                                 return 1;
                             })));

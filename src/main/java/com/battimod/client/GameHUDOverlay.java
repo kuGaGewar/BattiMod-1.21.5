@@ -29,20 +29,31 @@ public class GameHUDOverlay {
                     else if ("blau".equalsIgnoreCase(team)) color = Formatting.BLUE;
                 }
 
-                drawCenteredText(context, client, msg, width / 2, height / 2 - 20, color);
+                drawCenteredText(context, client, msg, width / 2, height / 2 - 20, color, 4.0f); // Große Zahl
+
             }
 
             // SPIELTIMER anzeigen
             if (GameManager.isGameRunning()) {
                 String time = GameManager.getFormattedTimer();
-                drawCenteredText(context, client, "Spielzeit: " + time, width / 2, 20, Formatting.GRAY);
+                drawCenteredText(context, client, "Spielzeit: " + time, width / 2, 20, Formatting.GRAY, 1.5f);
+
             }
         });
     }
 
-    private static void drawCenteredText(DrawContext context, MinecraftClient client, String text, int x, int y, Formatting color) {
+    private static void drawCenteredText(DrawContext context, MinecraftClient client, String text, int x, int y, Formatting color, float scale) {
         int colorCode = color.getColorValue();
-        int w = client.textRenderer.getWidth(text);
-        context.drawTextWithShadow(client.textRenderer, text, x - w / 2, y, colorCode);
+        int w = (int) (client.textRenderer.getWidth(text) * scale);
+        int h = (int) (client.textRenderer.fontHeight * scale);
+
+        context.getMatrices().push();
+        context.getMatrices().translate(x - w / 2f, y - h / 2f, 0);
+        context.getMatrices().scale(scale, scale, 1.0f);
+
+        context.drawTextWithShadow(client.textRenderer, text, 0, 0, colorCode);
+
+        context.getMatrices().pop();
     }
+
 }

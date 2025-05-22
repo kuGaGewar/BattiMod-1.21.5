@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "battimod",
+	"version": "${version}",
+	"name": "Batti Mod",
+	"description": "This is an Force-Item-Battle-Mod by kuGaGewar",
+	"authors": [
+		"kuGaGewar"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/battimod/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.battimod.BattiMod"
+		],
+		"fabric-datagen": [
+			"com.battimod.BattiModDataGenerator"
+		],
+		"client": [
+			"com.battimod.BattiModClient"
+		]
+	},
+	"mixins": [
+		"battimod.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.21.5",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}

@@ -17,7 +17,7 @@ public class BattiMod implements ModInitializer {
 		CommandForceTimer.register();
 
 
-		// ⏱️ GameManager starten, wenn Server hochfährt
+		// ⏱️ GameManager starten, wenn Server hochfährt, wichtig
 		ServerLifecycleEvents.SERVER_STARTED.register(server -> {
 			GameManager.init(server);
 		});

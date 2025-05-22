@@ -18,8 +18,7 @@ public class CommandForceStart {
                         ServerPlayerEntity player = ctx.getSource().getPlayer();
                         player.sendMessage(Text.of("⏳ Macht euch bereit!"), false);
 
-                        GameManager.setCountdownSeconds(GameSettings.countdownSeconds);
-                        GameManager.setGameSeconds(GameSettings.gameSeconds);
+
                         GameManager.startCountdown(); // Dieser startet beides automatisch in deinem GameManager-Tick
 
                         return 1;

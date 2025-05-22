@@ -42,9 +42,9 @@ public class GameManager {
                 }
                 broadcast("Start in " + seconds + "...");
             }
-            countdownTicks--;
-            if (countdownTicks == 0) {
-                startGame();
+            gameTicks--;
+            if (gameTicks <= 0) {
+                endGame();
             }
         } else if (isGameRunning()) {
             gameTicks++;
@@ -106,9 +106,9 @@ public class GameManager {
     }
 
     public static void setGameSeconds(int seconds) {
-        maxGameTicks = seconds * 20;
-        gameTicks = 0;
+        gameTicks = seconds * 20;
     }
+
 
     private static void playCountdownSound(int seconds, MinecraftServer server) {
         if (server == null) return;

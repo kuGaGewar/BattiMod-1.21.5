@@ -62,9 +62,13 @@ public class GameManager {
 
 
     public static String getFormattedTimer() {
-        int seconds = gameTicks / 20;
-        return String.format("%02d:%02d", seconds / 60, seconds % 60);
+        int totalSeconds = gameTicks / 20;
+        int hours = totalSeconds / 3600;
+        int minutes = (totalSeconds % 3600) / 60;
+        int seconds = totalSeconds % 60;
+        return String.format("%d:%02d:%02d", hours, minutes, seconds);
     }
+
 
     public static String getPlayerTeam(ClientPlayerEntity player) {
         return com.battimod.client.ClientTeamState.getClientTeam();

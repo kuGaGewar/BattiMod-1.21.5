@@ -35,8 +35,8 @@ public class GameHUDOverlay {
             // SPIELTIMER
             if (GameManager.isGameRunning()) {
                 String time = GameManager.getFormattedTimer();
-                int y = height - 40; // über XP-Leiste
-                drawCenteredText(context, client, "Spielzeit: " + time, width / 2, y, Formatting.GRAY, 1.5f);
+                int y = height / 2 - 100; // deutlich höher über HUD-Leiste
+                drawCenteredText(context, client, "Spielzeit: " + time, width / 2, y, Formatting.LIGHT_PURPLE, 1.2f);
 
                 if (GameManager.isGamePaused()) {
                     drawCenteredText(context, client, "⏸ PAUSIERT", width / 2, y - 30, Formatting.YELLOW, 3.0f);

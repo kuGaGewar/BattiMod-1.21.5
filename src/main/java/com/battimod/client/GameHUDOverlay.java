@@ -4,6 +4,7 @@ import com.battimod.game.GameManager;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
+import net.minecraft.item.Item;
 import net.minecraft.util.Formatting;
 
 public class GameHUDOverlay {
@@ -32,14 +33,24 @@ public class GameHUDOverlay {
                 drawCenteredText(context, client, msg, width / 2, height / 2 - 30, color, scale);
             }
 
-            // SPIELTIMER
+            // SPIELTIMER + PAUSE + ZIEL-ITEM
             if (GameManager.isGameRunning()) {
                 String time = GameManager.getFormattedTimer();
-                int y = height / 2 - 100; // deutlich höher über HUD-Leiste
+                int y = height / 2 - 100;
+
+                // Timer
                 drawCenteredText(context, client, "Spielzeit: " + time, width / 2, y, Formatting.LIGHT_PURPLE, 1.2f);
 
+                // Pause-Anzeige
                 if (GameManager.isGamePaused()) {
                     drawCenteredText(context, client, "⏸ PAUSIERT", width / 2, y - 30, Formatting.YELLOW, 3.0f);
+                }
+
+                // Ziel-Item
+                Item item = ClientItemTargetState.getTarget();
+                if (item != null) {
+                    String itemName = item.getName().getString();
+                    drawCenteredText(context, client, "🎯 Ziel: " + itemName, width / 2, y + 20, Formatting.GOLD, 1.4f);
                 }
             }
         });

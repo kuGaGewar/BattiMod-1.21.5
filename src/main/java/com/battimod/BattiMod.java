@@ -16,6 +16,7 @@ public class BattiMod implements ModInitializer {
 		CommandForceCountdown.register();
 		CommandForceTimer.register();
 		CommandForceLeave.register();
+		CommandForceResults.register();
 
 
 

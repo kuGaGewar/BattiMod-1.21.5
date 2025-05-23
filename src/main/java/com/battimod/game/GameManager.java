@@ -104,6 +104,8 @@ public class GameManager {
 
             gameTicks--;
 
+            ItemBattleManager.tick(server); // Wenn Game nicht pausiert ist soll durchgehend Inventar gecheckt werden ob momentanes Item vorhanden.
+
 
             if (gameTicks % 20 == 0 && gameTicks / 20 <= 3 && gameTicks / 20 > 0) {
                 broadcast("Spiel endet in " + (gameTicks / 20) + "...");
@@ -125,6 +127,9 @@ public class GameManager {
                 .forEach(ItemGiver::giveRandomItem);
 
         gameTicks = GameSettings.gameSeconds * 20;
+
+
+        ItemBattleManager.startBattle(server); //startet das Battle
     }
 
     private static void endGame() {

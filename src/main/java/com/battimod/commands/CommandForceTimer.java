@@ -15,16 +15,26 @@ public class CommandForceTimer {
         CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
             dispatcher.register(
                     literal("forcetimer")
-                            .then(literal("set")
-                                    .then(argument("sekunden", IntegerArgumentType.integer(1))
-                                            .executes(ctx -> {
-                                                int sek = IntegerArgumentType.getInteger(ctx, "sekunden");
-                                                GameSettings.gameSeconds = sek;
-                                                ctx.getSource().sendFeedback(() -> Text.literal("⏱️ Spielzeit auf " + sek + " Sekunden gesetzt."), false);
-                                                return 1;
-                                            })
+                            .then(literal("set_hms")
+                                    .then(argument("stunden", IntegerArgumentType.integer(0))
+                                            .then(argument("minuten", IntegerArgumentType.integer(0, 59))
+                                                    .then(argument("sekunden", IntegerArgumentType.integer(0, 59))
+                                                            .executes(ctx -> {
+                                                                int h = IntegerArgumentType.getInteger(ctx, "stunden");
+                                                                int m = IntegerArgumentType.getInteger(ctx, "minuten");
+                                                                int s = IntegerArgumentType.getInteger(ctx, "sekunden");
+                                                                int total = h * 3600 + m * 60 + s;
+
+                                                                GameSettings.gameSeconds = total;
+                                                                GameManager.setGameSeconds(total);
+                                                                ctx.getSource().sendFeedback(() -> Text.literal("⏱️ Zeit gesetzt auf " + h + "h " + m + "m " + s + "s"), false);
+                                                                return 1;
+                                                            })
+                                                    )
+                                            )
                                     )
                             )
+
                             .then(literal("pause")
                                     .executes(ctx -> {
                                         if (!GameManager.isGameRunning()) {

@@ -75,8 +75,9 @@ public class GameManager {
     }
 
     public static void setGameSeconds(int seconds) {
-        gameTicks = -1; // nur merken, später setzen
+        gameTicks = seconds * 20;
     }
+
 
     private static void tick(MinecraftServer server) {
         if (countdownTicks >= 0) {

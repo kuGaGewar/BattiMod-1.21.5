@@ -1,5 +1,6 @@
 package com.battimod.commands;
 
+import com.battimod.game.GameManager;
 import com.battimod.team.TeamManager;
 
 
@@ -20,6 +21,11 @@ public class CommandForceJoin {
             dispatcher.register(CommandManager.literal("forcejoin")
                     .then(CommandManager.argument("team", StringArgumentType.word())
                             .executes(ctx -> {
+                                if (GameManager.isGameRunning() || GameManager.isGamePaused()) {
+                                    ctx.getSource().sendFeedback(() ->
+                                            Text.literal("❌ Teamwechsel während des Spiels nicht erlaubt."), false);
+                                    return 0;
+                                }
                                 ServerPlayerEntity player = ctx.getSource().getPlayer();
                                 String team = StringArgumentType.getString(ctx, "team");
                                 return assignTeam(player, team, ctx.getSource());
@@ -27,6 +33,11 @@ public class CommandForceJoin {
                             .then(CommandManager.argument("spieler", EntityArgumentType.player())
                                     .requires(source -> source.hasPermissionLevel(2)) // Nur Admins/OPs
                                     .executes(ctx -> {
+                                        if (GameManager.isGameRunning() || GameManager.isGamePaused()) {
+                                            ctx.getSource().sendFeedback(() ->
+                                                    Text.literal("❌ Teamwechsel während des Spiels nicht erlaubt."), false);
+                                            return 0;
+                                        }
                                         String team = StringArgumentType.getString(ctx, "team");
                                         ServerPlayerEntity target = EntityArgumentType.getPlayer(ctx, "spieler");
                                         return assignTeam(target, team, ctx.getSource());

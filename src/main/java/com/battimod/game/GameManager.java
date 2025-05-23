@@ -128,7 +128,7 @@ public class GameManager {
         for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
             com.battimod.commands.CommandForceJoker.giveJokerTo(player, GameSettings.jokerCount);
         }
-        System.out.println("→ Joker werden beim Spielstart verteilt.");
+        //System.out.println("→ Joker werden beim Spielstart verteilt."); war zu Testwezcken
 
 
         TeamManager.getTeams().values().stream()

@@ -1,5 +1,6 @@
 package com.battimod.commands;
 
+import com.battimod.game.GameManager;
 import com.battimod.team.TeamManager;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -13,6 +14,12 @@ public class CommandForceLeave {
             dispatcher.register(
                     literal("forceleave")
                             .executes(ctx -> {
+                                if (GameManager.isGameRunning() || GameManager.isGamePaused()) {
+                                    ctx.getSource().sendFeedback(() ->
+                                            Text.literal("❌ Teamwechsel während des Spiels nicht erlaubt."), false);
+                                    return 0;
+                                }
+
                                 ServerPlayerEntity player = ctx.getSource().getPlayer();
                                 TeamManager.removePlayerFromTeams(player.getUuid());
                                 ctx.getSource().sendFeedback(() -> Text.literal("🚪 Du hast dein Team verlassen."), false);

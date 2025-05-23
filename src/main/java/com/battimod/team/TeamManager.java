@@ -61,4 +61,12 @@ public class TeamManager {
     }
 
 
+    public static void removePlayerFromTeams(UUID playerUuid) {
+        for (List<UUID> team : teams.values()) {
+            team.remove(playerUuid);
+        }
+    }
+
+
+
 }

@@ -15,6 +15,8 @@ public class BattiMod implements ModInitializer {
 		CommandForceInfo.register();
 		CommandForceCountdown.register();
 		CommandForceTimer.register();
+		CommandForceLeave.register();
+
 
 
 		// ⏱️ GameManager starten, wenn Server hochfährt, wichtig

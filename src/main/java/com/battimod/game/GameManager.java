@@ -66,8 +66,12 @@ public class GameManager {
         int hours = totalSeconds / 3600;
         int minutes = (totalSeconds % 3600) / 60;
         int seconds = totalSeconds % 60;
-        return String.format("%d:%02d:%02d", hours, minutes, seconds);
+
+        if (hours > 0) return String.format("%d:%02d:%02d", hours, minutes, seconds);
+        if (minutes > 0) return String.format("%02d:%02d", minutes, seconds);
+        return String.format("%02d", seconds);
     }
+
 
 
     public static String getPlayerTeam(ClientPlayerEntity player) {
@@ -95,7 +99,7 @@ public class GameManager {
 
             countdownTicks--;
 
-            if (countdownTicks <= 0) {
+            if (countdownTicks == 0) {
                 startGame();
             }
 
@@ -124,6 +128,7 @@ public class GameManager {
         for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
             com.battimod.commands.CommandForceJoker.giveJokerTo(player, GameSettings.jokerCount);
         }
+        System.out.println("→ Joker werden beim Spielstart verteilt.");
 
 
         TeamManager.getTeams().values().stream()

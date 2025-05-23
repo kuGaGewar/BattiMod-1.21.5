@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.Formatting;
 
 public class GameHUDOverlay {
@@ -36,22 +37,30 @@ public class GameHUDOverlay {
             // SPIELTIMER + PAUSE + ZIEL-ITEM
             if (GameManager.isGameRunning()) {
                 String time = GameManager.getFormattedTimer();
-                int y = height / 2 - 100;
+                int timeY = height - 40;
 
-                // Timer
-                drawCenteredText(context, client, "Spielzeit: " + time, width / 2, y, Formatting.LIGHT_PURPLE, 1.2f);
+                drawCenteredText(context, client, "⏱ Spielzeit: " + time, width / 2, timeY, Formatting.LIGHT_PURPLE, 1.2f);
 
-                // Pause-Anzeige
                 if (GameManager.isGamePaused()) {
-                    drawCenteredText(context, client, "⏸ PAUSIERT", width / 2, y - 30, Formatting.YELLOW, 3.0f);
+                    drawCenteredText(context, client, "⏸ PAUSIERT", width / 2, timeY - 30, Formatting.YELLOW, 3.0f);
                 }
 
-                // Ziel-Item
                 Item item = ClientItemTargetState.getTarget();
                 if (item != null) {
                     String itemName = item.getName().getString();
-                    drawCenteredText(context, client, "🎯 Ziel: " + itemName, width / 2, y + 20, Formatting.GOLD, 1.4f);
+                    int nameWidth = client.textRenderer.getWidth("🎯 Ziel: " + itemName);
+                    int textX = width / 2 - nameWidth / 2;
+                    int yPos = 10;
+
+                    context.drawTextWithShadow(client.textRenderer, "🎯 Ziel: " + itemName, textX, yPos, Formatting.GOLD.getColorValue());
+
+                    int iconX = textX + nameWidth + 6;
+                    context.drawItem(new ItemStack(item), iconX, yPos - 4);
                 }
+
+
+
+
             }
         });
     }

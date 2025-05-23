@@ -37,7 +37,7 @@ public class GameHUDOverlay {
             // SPIELTIMER + PAUSE + ZIEL-ITEM
             if (GameManager.isGameRunning()) {
                 String time = GameManager.getFormattedTimer();
-                int timeY = height - 40;
+                int timeY = height - 48; //-48 setzt den Timer etwas höher als -40
 
                 drawCenteredText(context, client, "⏱ Spielzeit: " + time, width / 2, timeY, Formatting.LIGHT_PURPLE, 1.2f);
 
@@ -55,7 +55,7 @@ public class GameHUDOverlay {
                     context.drawTextWithShadow(client.textRenderer, "🎯 Ziel: " + itemName, textX, yPos, Formatting.GOLD.getColorValue());
 
                     int iconX = textX + nameWidth + 6;
-                    context.drawItem(new ItemStack(item), iconX, yPos - 4);
+                    context.drawItem(new ItemStack(item), iconX, yPos - 6); //-6 setzt das icon etwas höher als -4
                 }
 
 

@@ -32,7 +32,7 @@ public class CommandForceJoker {
                                         giveJokerTo(player, anzahl);
 
                                         ctx.getSource().sendFeedback(() ->
-                                                Text.literal("🃏 Du hast " + anzahl + " Joker erhalten."), false);
+                                                Text.literal("Du hast " + anzahl + " Joker erhalten."), false);
                                         return 1;
                                     })
                             )
@@ -54,7 +54,7 @@ public class CommandForceJoker {
                                                         giveJokerTo(target, anzahl);
 
                                                         ctx.getSource().sendFeedback(() ->
-                                                                Text.literal("🃏 " + anzahl + " Joker an " + target.getName().getString() + " gegeben."), false);
+                                                                Text.literal( anzahl + " Joker an " + target.getName().getString() + " gegeben."), false);
                                                         return 1;
                                                     })
                                             )
@@ -80,7 +80,7 @@ public class CommandForceJoker {
         ItemBattleManager.giveJokers(player.getUuid(), anzahl);
 
         ItemStack jokerItem = new ItemStack(Items.BARRIER, anzahl);
-        jokerItem.set(DataComponentTypes.CUSTOM_NAME, Text.literal("🃏 Joker"));
+        jokerItem.set(DataComponentTypes.CUSTOM_NAME, Text.literal("Joker"));
         jokerItem.set(DataComponentTypes.LORE, new LoreComponent(List.of(
                 Text.literal("Rechtsklick, um dein Ziel-Item zu erhalten.")
         )));

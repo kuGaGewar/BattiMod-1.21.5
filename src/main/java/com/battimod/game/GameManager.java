@@ -2,6 +2,8 @@ package com.battimod.game;
 
 import com.battimod.GameSettings;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -147,7 +149,18 @@ public class GameManager {
         broadcast("❌ Das Spiel ist vorbei!");
         gameTicks = -1;
         countdownTicks = -1;
+
+        // Joker entfernen (nur benannte Barrieren mit "Joker")
+        for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+            for (int i = 0; i < player.getInventory().size(); i++) {
+                ItemStack stack = player.getInventory().getStack(i);
+                if (stack.getItem() == Items.BARRIER && "Joker".equals(stack.getName().getString())) {
+                    player.getInventory().removeStack(i);
+                }
+            }
+        }
     }
+
 
     private static void broadcast(String message) {
         if (server != null) {

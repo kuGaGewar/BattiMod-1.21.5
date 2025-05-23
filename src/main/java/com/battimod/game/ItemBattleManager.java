@@ -4,6 +4,7 @@ import com.battimod.network.ItemTargetPayload;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.registry.Registries;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -49,7 +50,27 @@ public class ItemBattleManager {
     }
 
     public static void giveNewTarget(ServerPlayerEntity player) {
-        List<Item> allItems = Registries.ITEM.stream().toList();
+
+        //Hier die Liste mit den verbotenen Items
+        List<Item> allItems = Registries.ITEM.stream()
+                .filter(item -> item.getMaxCount() > 0)
+                .filter(item -> !item.getTranslationKey().contains("spawn_egg"))
+                .filter(item -> !item.getTranslationKey().contains("banner_pattern"))
+                .filter(item -> !item.equals(Items.ENCHANTED_BOOK))
+                .filter(item -> !item.equals(Items.BEDROCK))
+                .filter(item -> !item.equals(Items.BARRIER))
+                .filter(item -> !item.equals(Items.COMMAND_BLOCK))
+                .filter(item -> !item.equals(Items.CHAIN_COMMAND_BLOCK))
+                .filter(item -> !item.equals(Items.REPEATING_COMMAND_BLOCK))
+                .filter(item -> !item.equals(Items.COMMAND_BLOCK_MINECART))
+                .filter(item -> !item.equals(Items.DEBUG_STICK))
+                .filter(item -> !item.equals(Items.STRUCTURE_BLOCK))
+                .filter(item -> !item.equals(Items.STRUCTURE_VOID))
+                .filter(item -> !item.equals(Items.JIGSAW))
+                .filter(item -> !item.equals(Items.KNOWLEDGE_BOOK))
+                .toList();
+
+
         Item randomItem = allItems.get(random.nextInt(allItems.size()));
         currentTargets.put(player.getUuid(), randomItem);
 

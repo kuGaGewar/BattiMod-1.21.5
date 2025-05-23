@@ -120,6 +120,12 @@ public class GameManager {
 
     private static void startGame() {
         broadcast("❗ Spiel startet jetzt!");
+
+        for (ServerPlayerEntity player : server.getPlayerManager().getPlayerList()) {
+            com.battimod.commands.CommandForceJoker.giveJokerTo(player, GameSettings.jokerCount);
+        }
+
+
         TeamManager.getTeams().values().stream()
                 .flatMap(List::stream)
                 .map(uuid -> server.getPlayerManager().getPlayer(uuid))

@@ -78,6 +78,24 @@ public class ItemBattleManager {
         return completedItems.getOrDefault(uuid, List.of());
     }
 
+    private static final Map<UUID, Integer> jokerCounts = new HashMap<>();
+
+    public static void giveJokers(UUID player, int count) {
+        jokerCounts.put(player, jokerCounts.getOrDefault(player, 0) + count);
+    }
+
+    public static boolean useJoker(UUID player) {
+        int current = jokerCounts.getOrDefault(player, 0);
+        if (current > 0) {
+            jokerCounts.put(player, current - 1);
+            return true;
+        }
+        return false;
+    }
+
+    public static int getJokerCount(UUID player) {
+        return jokerCounts.getOrDefault(player, 0);
+    }
 
 
 }

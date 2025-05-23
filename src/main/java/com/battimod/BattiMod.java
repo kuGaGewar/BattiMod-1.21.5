@@ -1,6 +1,7 @@
 package com.battimod;
 
 import com.battimod.commands.*;
+import com.battimod.event.JokerItemUseHandler;
 import com.battimod.game.GameManager;
 import com.battimod.network.TeamSyncPacket;
 import net.fabricmc.api.ModInitializer;
@@ -17,6 +18,8 @@ public class BattiMod implements ModInitializer {
 		CommandForceTimer.register();
 		CommandForceLeave.register();
 		CommandForceResults.register();
+		JokerItemUseHandler.register();
+		CommandForceJoker.register();
 
 
 
